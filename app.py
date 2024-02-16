@@ -54,7 +54,7 @@ st.header("ETS-Gemini : Improve Your Resume")
 
 jd=st.text_area("Paste the Job Description")
 
-uploaded_file=st.file_uploader("Upload Your Resume",type="pdf",help="Please uplaod the pdf")
+uploaded_file=st.file_uploader("Upload Your Resume",type="pdf",help="Please upload the pdf")
 
 submit = st.button("Submit")
 
