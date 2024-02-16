@@ -5,6 +5,10 @@ name = "pypi"
 
 [packages]
 streamlit = "*"
+pillow = "*"
+python-dotenv = "*"
+google-generativeai = "*"
+pypdf2 = "*"
 
 [dev-packages]
 
