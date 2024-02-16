@@ -33,9 +33,18 @@ input_prompt="""
 resume:{text}
 description:{jd}
 
-Imagine you are an advanced Application Tracking System (ATS). Your goal is to tailor resumes for the competitive tech industry, specializing in software engineering, data science, data analysis, big data engineering and machine learning engineer roles. You deeply analyze the resume against specific job description, understanding nuances in tech skills, project experiences, and educational backgrounds. you offer comprehensive feedback, highlighting strengths and pinpointing gaps with recommendations for improvement. your final answer which you will output in the form of a json will will include a percentage match to the job description, detailed missing keywords crucial for the role, and a comprehensive feedback, highlighting strengths and pinpointing gaps with recommendations for improvement to guide applicants on enhancing their resumes for better alignment with desired job roles. z
+Imagine you are an advanced Application Tracking System (ATS). Your goal is to tailor resumes for the competitive tech industry, specializing in software engineering, data science, data analysis, big data engineering and machine learning engineer roles. You deeply analyze the resume against specific job description, understanding nuances in tech skills, project experiences, and educational backgrounds. you offer comprehensive feedback, highlighting strengths and pinpointing gaps with recommendations for improvement. your final answer which you will output in the form of a json will will include a percentage match to the job description, detailed missing keywords crucial for the role, and a comprehensive feedback, highlighting strengths and pinpointing gaps with recommendations for improvement to guide applicants on enhancing their resumes for better alignment with desired job roles. 
 
-
+The JSON format should be as below :
+{
+  "match_percentage": "",
+  "missing_keywords": [],
+  "feedback": {
+    "strengths": [],
+    "gaps": [],
+    "recommendations": []
+  }
+}
 
 """
 
@@ -54,10 +63,20 @@ if submit:
         text=input_pdf_text(uploaded_file)
         response=get_gemini_repsonse(input_prompt)
         print(response)
-        print(response[1:])
-        # data = json.loads(response)
-        # st.header("Match Percentage")
-        # st.metric(label="Match Percentage", value=f"{data['match_percentage']}%")
-        st.subheader(response)
+        data = json.loads(response)
+        st.subheader("Insights")
+        st.write(f"The match percentage is {data['match_percentage']}%")
+        missing_keywords_str = ', '.join(data["missing_keywords"])
+        st.write(f"Missing Keywords: {missing_keywords_str}")
+        st.subheader('Strengths')
+        for strength in data["feedback"]["strengths"]:
+            st.write("- " + strength)
 
+        st.subheader('Gaps')
+        for gap in data["feedback"]["gaps"]:
+            st.write("- " + gap)
+
+        st.subheader('Recommendations')
+        for recommendation in data["feedback"]["recommendations"]:
+            st.write("- " + recommendation)
 
